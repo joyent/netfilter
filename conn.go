@@ -36,6 +36,20 @@ func Dial(config *netlink.Config) (*Conn, error) {
 	return &c, nil
 }
 
+// Dial opens a new Netlink connection to the custom subsystem
+// and returns it wrapped in a Conn structure.
+func DialWithFamily(family int, config *netlink.Config) (*Conn, error) {
+	var c Conn
+	var err error
+
+	c.conn, err = netlink.Dial(family, config)
+	if err != nil {
+		return nil, err
+	}
+
+	return &c, nil
+}
+
 // Close closes a Conn.
 func (c *Conn) Close() error {
 	return c.conn.Close()
